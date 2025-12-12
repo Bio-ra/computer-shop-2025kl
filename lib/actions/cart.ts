@@ -27,7 +27,7 @@ export async function getCartTotal(userId: string) {
   const cart = await getCartWithItems(userId);
   if (!cart) return 0;
 
-  const total = cart.items.reduce((acc, item) => {
+  const total = cart.items.reduce((acc: number, item: any) => {
     const price = Number(item.product.price);
     const qty = item.quantity ?? 0;
     return acc + price * qty;
@@ -150,7 +150,7 @@ export async function getAllUsersWithCarts() {
       email: u.email,
       cart: u.cart,
       itemsCount:
-        u.cart?.items?.reduce((acc, it) => acc + (it.quantity ?? 0), 0) ?? 0,
+        u.cart?.items?.reduce((acc: number, it: any) => acc + (it.quantity ?? 0), 0) ?? 0,
     }));
   } catch (err) {
     // If DB/table isn't available yet (development), fail gracefully so UI can render
