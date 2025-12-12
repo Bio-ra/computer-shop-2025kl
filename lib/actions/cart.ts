@@ -145,7 +145,7 @@ export async function getAllUsersWithCarts() {
       orderBy: { email: "asc" },
     });
 
-    return users.map((u) => ({
+    return users.map((u: any) => ({
       id: u.id,
       email: u.email,
       cart: u.cart,
@@ -175,7 +175,7 @@ export async function transferCart(
     throw new TypeError("Cannot transfer to the same user");
   }
 
-  return await prisma.$transaction(async (tx) => {
+  return await prisma.$transaction(async (tx: any) => {
     // ensure carts exist
     const fromCart = await tx.cart.findUnique({
       where: { userId: fromId },
