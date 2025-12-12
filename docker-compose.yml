@@ -1,0 +1,31 @@
+version: "3.7"
+
+services:
+  postgres_2025_kl:
+    image: postgres:15
+    container_name: postgres-db_2025_kl
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: prisma
+    ports:
+      - "5432:5432"
+    networks:
+      - prisma-network_2025_kl
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 5s
+      timeout: 2s
+      retries: 20
+    volumes:
+      - postgres_data_2025_jk:/var/lib/postgresql/data
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+networks:
+  prisma-network_2025_jk:
+
+volumes:
+  postgres_data_2025_jk:

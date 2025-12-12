@@ -1,0 +1,19 @@
+/* Styles for Order History page */
+.container {
+  padding: 1rem;
+}
+
+.title {
+  font-size: 1.4rem;
+  color: #e5e5e1;
+  margin-bottom: 0.5rem;
+}
+
+.text {
+  color: #bcbcb7;
+}
+
+.list {
+  margin-top: 0.5rem;
+  color: #e5e5e1;
+}
