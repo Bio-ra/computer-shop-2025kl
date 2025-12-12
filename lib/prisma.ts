@@ -34,16 +34,24 @@ function createMockPrisma() {
 }
 
 let prisma: PrismaClientType;
-if (PrismaClientCtor) {
-	prisma = globalForPrisma.prisma || new PrismaClientCtor();
-	if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+if (PrismaClientCtor && process.env.DATABASE_URL) {
+	// Only instantiate the real client if DATABASE_URL is available
+	try {
+		prisma = globalForPrisma.prisma || new PrismaClientCtor();
+		if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+	} catch (err) {
+		// If instantiation fails (e.g., no database connection during build), use mock
+		// eslint-disable-next-line no-console
+		console.warn("Failed to instantiate Prisma client — using mock Prisma client.");
+		prisma = createMockPrisma();
+	}
 } else {
-	// If the generated client isn't available, use a mock so Next.js build can
+	// If the generated client isn't available or DATABASE_URL is missing, use a mock so Next.js build can
 	// collect page data without crashing. This avoids the "Cannot find module '.prisma/client/default'"
 	// error at import time. If runtime code actually requires DB access, it will
 	// need a real generated client and a live database.
 	// eslint-disable-next-line no-console
-	console.warn("@prisma/client not found — using mock Prisma client. Run `npx prisma generate` to generate the client.");
+	console.warn("@prisma/client not found or DATABASE_URL missing — using mock Prisma client. Run `npx prisma generate` to generate the client.");
 	prisma = createMockPrisma();
 }
 
