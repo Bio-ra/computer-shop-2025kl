@@ -1,3 +1,17 @@
+const { execSync } = require("child_process");
+
+// Try to run `prisma generate` but never fail the install step.
+// This helps avoid CI/install failures when environment variables
+// (like DATABASE_URL) are intentionally absent during `npm install`.
+try {
+  console.log("> Running prisma generate (postinstall)");
+  execSync("npx prisma generate", { stdio: "inherit" });
+} catch (err) {
+  console.warn("prisma generate failed during postinstall — continuing install.");
+  // Do not rethrow — we want installs (and Vercel's `npm install`) to succeed.
+}
+
+module.exports = {};
 const { spawnSync } = require('child_process');
 
 function log(...args) {

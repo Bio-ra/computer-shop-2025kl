@@ -2,11 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client"
-  // Ensure a concrete output path so Prisma generation works in CI (Vercel).
-  // Output path is relative to the schema directory and should point
-  // to the generated client inside node_modules.
-  output = "../node_modules/.prisma/client"
+  // Use the JS client generator default (writes into node_modules/.prisma/client).
+  provider = "prisma-client-js"
 }
 
 datasource db {
