@@ -88,7 +88,7 @@ async function main() {
       return acc;
     }, {} as Record<string, any>);
 
-    const seedEmail = "seed@example.com";
+    const seedEmail = "b30r4k@gmail.com";
     const seedName = "Seed User";
     const seedPassword = "password";
 
