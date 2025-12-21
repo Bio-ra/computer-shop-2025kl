@@ -7,6 +7,7 @@ try {
 	const PrismaPkg = require("@prisma/client");
 	PrismaClientCtor = PrismaPkg.PrismaClient ?? PrismaPkg.default ?? PrismaPkg;
 } catch (err) {
+	console.error("Failed to require @prisma/client:", err);
 	PrismaClientCtor = null;
 }
 
@@ -42,7 +43,7 @@ if (PrismaClientCtor && process.env.DATABASE_URL) {
 	} catch (err) {
 		// If instantiation fails (e.g., no database connection during build), use mock
 		// eslint-disable-next-line no-console
-		console.warn("Failed to instantiate Prisma client — using mock Prisma client.");
+		console.warn("Failed to instantiate Prisma client:", err);
 		prisma = createMockPrisma();
 	}
 } else {
@@ -51,7 +52,7 @@ if (PrismaClientCtor && process.env.DATABASE_URL) {
 	// error at import time. If runtime code actually requires DB access, it will
 	// need a real generated client and a live database.
 	// eslint-disable-next-line no-console
-	console.warn("@prisma/client not found or DATABASE_URL missing — using mock Prisma client. Run `npx prisma generate` to generate the client.");
+	console.warn(`Prisma mock mode - PrismaClientCtor: ${!!PrismaClientCtor}, DATABASE_URL: ${!!process.env.DATABASE_URL}`);
 	prisma = createMockPrisma();
 }
 
