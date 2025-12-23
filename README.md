@@ -6,7 +6,8 @@
 - year: 2025
 - group: 14K1
 - computer laboratory team: K03
-- link to app on Vercel platform: https://computer-shop-2025kl-sfvgknqa9-bioras-projects.vercel.app/
+- link to app on Vercel platform: https://computer-shop-2025kl-cqcl5a1j4-bioras-projects.vercel.app
+- link do repo github: https://github.com/Bio-ra/computer-shop-2025kl
 
 ## Content
 

@@ -124,12 +124,8 @@ async function main() {
       insertVals.push(seedName);
     }
 
-    if (cols["password"]) {
-      insertCols.push('"password"');
-      placeholders.push(`$${idx++}`);
-      insertVals.push(seedPassword);
-    }
-
+    // Skip password for GitHub OAuth users - they don't use password auth
+    
     // timestamps: use NOW() where present (no placeholder needed)
     if (cols["createdAt"]) {
       insertCols.push('"createdAt"');
@@ -149,6 +145,14 @@ async function main() {
 
     const userRes = await client.query("SELECT id FROM users WHERE email = $1", [seedEmail]);
     const userId = userRes.rows[0].id;
+
+    // Create GitHub Account link for OAuth authentication
+    const githubUserId = "165995040"; // BiorA3's GitHub user ID
+    await client.query(
+      `INSERT INTO accounts("userId", "type", "provider", "providerAccountId", "createdAt", "updatedAt")
+       VALUES($1, $2, $3, $4, NOW(), NOW()) ON CONFLICT ("userId", "provider", "providerAccountId") DO NOTHING`,
+      [userId, "oauth", "github", githubUserId]
+    );
 
     // Create a sample cart (if not exists)
     await client.query(
